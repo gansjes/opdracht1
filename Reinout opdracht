@@ -1,0 +1,38 @@
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+
+survey = pd.read_csv("survey.csv")
+steps = pd.read_csv("steps.csv",sep = ';')
+
+steps['mean1'] =steps.mean(axis = 1, skipna = True)
+df_merged = pd.merge(steps, survey)
+#df = survey.merge(steps , on = "id")
+print(df_merged)
+
+df1 = df_merged.replace(['NaN'],'0')
+
+threshold1 = 12000.0
+
+df1 = df1.query('mean1 < @threshold1')
+
+threshold2 = 50.0
+
+df1 = df1.query('weight > @threshold2')
+
+threshold3 = 200.0
+
+df1 = df1.query('weight < @threshold3')
+
+sns.boxplot(x="mean1", data=df1)
+
+sns.boxplot(x="height", data=df1)
+
+sns.boxplot(x="weight", data=df1)
+
+sns.displot(x="mean1", kde=True, data=df1)
+plt.title(lol)
+plt.xticks(rotation=45)
+pl
